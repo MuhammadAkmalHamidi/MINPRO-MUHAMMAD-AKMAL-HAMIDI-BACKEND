@@ -48,7 +48,7 @@ module.exports = {
             
             await user.update(
                 {
-                    isVerify : 0
+                    isVerify : 1
                 },
                 {
                     where : {email : req.body.email}
@@ -174,7 +174,7 @@ module.exports = {
                })
 
             const result = await user.update(
-                {PhoneNumber : newPhoneNumber},
+                {phoneNumber : newPhoneNumber},
                 {where : {id : req.user.id}}
             )
             res.status(200).send({
@@ -236,6 +236,9 @@ module.exports = {
     },
     imageProfile : async (req, res) => {
         try {
+            if (req.file == undefined) throw{
+                message : "Image should not be empty"
+            }
             if (req.file.size > 1024 * 1024) throw{
                 message : 'file size too large'
             }
